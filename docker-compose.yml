@@ -1,0 +1,9 @@
+version: '3.3'
+services:
+  jekyll:
+    image: jekyll/jekyll:3.8
+    volumes:
+      - ./:/srv/jekyll
+    ports:
+      - 8080:4000
+    command: jekyll serve --force_polling --verbose
