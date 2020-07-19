@@ -1,6 +1,14 @@
 # readme
 
-Create a new file `production.ini`:
+## Serving Locally
+
+``` sh
+jekyll serve
+```
+
+## Deployment
+
+Create a new file `production.ini`, making sure the user has root privileges:
 
 ``` ini
 [remote]
@@ -10,5 +18,5 @@ Create a new file `production.ini`:
 Deploy the site to your remote server:
 
 ``` sh
-$ ansible-playbook playbook.yml production.ini
+$ ansible-playbook playbook.yml -i production.ini
 ```

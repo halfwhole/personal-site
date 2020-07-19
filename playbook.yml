@@ -4,17 +4,35 @@
     command: "jekyll build"
 
 - hosts: remote
+  become: yes
   tasks:
-  - name: Ensure directory exists
+  - name: Ensure site directory exists
     file:
-      path: "{{ dirname }}"
+      path: "{{ site_directory }}"
       state: directory
 
-  - name: Copy _site directory to remote
+  - name: Copy _site to remote site directory
     synchronize:
-      src: _site
-      dest: "{{ dirname }}"
+      src: _site/
+      dest: "{{ site_directory }}"
       delete: yes
 
+  - name: Install nginx
+    package:
+      name: nginx
+      state: present
+
+  - name: Copy nginx.conf template
+    template:
+      src: nginx.conf.template
+      dest: "/etc/nginx/nginx.conf"
+    notify: Restart nginx
+
+  handlers:
+  - name: Restart nginx
+    service:
+      name: nginx
+      state: restarted
+
   vars:
-    dirname: ~/personal-site
+    site_directory: /var/www/html/
