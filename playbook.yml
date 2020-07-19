@@ -1,0 +1,20 @@
+- hosts: localhost
+  tasks:
+  - name: Run jekyll build
+    command: "jekyll build"
+
+- hosts: remote
+  tasks:
+  - name: Ensure directory exists
+    file:
+      path: "{{ dirname }}"
+      state: directory
+
+  - name: Copy _site directory to remote
+    synchronize:
+      src: _site
+      dest: "{{ dirname }}"
+      delete: yes
+
+  vars:
+    dirname: ~/personal-site
