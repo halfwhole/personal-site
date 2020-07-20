@@ -8,7 +8,7 @@ jekyll serve
 
 ## Deployment
 
-Create a new file `production.ini`, making sure the user has root privileges:
+Create a new file `production.ini`, making sure the user has `sudo` privileges:
 
 ``` ini
 [remote]

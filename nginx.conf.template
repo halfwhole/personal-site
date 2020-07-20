@@ -4,6 +4,7 @@ events {
 
 http {
     server {
+        server_name zwlim.com www.zwlim.com;
         include  /etc/nginx/mime.types;
         location / {
             root {{ site_directory }};
