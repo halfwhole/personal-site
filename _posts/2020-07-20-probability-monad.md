@@ -13,7 +13,7 @@ Those who've used Haskell before have likely worked with a couple of well-known 
 For example, the `List` represents a non-deterministic computation, and `Maybe` represents a computation
 with a success or failure outcome.
 
-What about probability distributions? As it turns out, it too is a Monad, and we can implement it in Haskell.
+What about probability distributions? As it turns out, it too is a Monad that we can implement in Haskell.
 
 ## 1. Probability Distributions
 
