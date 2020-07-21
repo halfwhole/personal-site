@@ -5,11 +5,15 @@ date:   2020-07-20 22:30:00 +0800
 tags:   probability monad haskell
 ---
 
-We've seen and worked with a couple of well-known monads before. The `List`
-represents a non-deterministic computation, and `Maybe` represents a computation
+<script src="/assets/js/jquery-1.11.1.min.js"></script>
+<script src="/assets/js/katex.min.js"></script>
+<link rel="stylesheet" href="/assets/css/katex.min.css">
+
+Those who've used Haskell before have likely worked with a couple of well-known monads.
+For example, the `List` represents a non-deterministic computation, and `Maybe` represents a computation
 with a success or failure outcome.
 
-What about probability? Can we represent it as a computational context in Haskell?
+What about probability distributions? As it turns out, it too is a Monad, and we can implement it in Haskell.
 
 ## 1. Probability Distributions
 
@@ -18,7 +22,7 @@ has some non-zero probability of occurring.
 
 We can represent this distribution as a list of
 outcome-probability pairs `[(x, p)]`, where `x` represents an outcome
-and `p` represents its probability. For example, the distribution of a 
+and `p` represents its probability. For example, the distribution of tossing a 
 fair coin can be represented as `[('H', 1 % 2), ('T', 1 % 2)]`.
 
 - The outcome can have a polymorphic type `a`, as it may be any type we wish.
@@ -133,8 +137,8 @@ wetness Cloudy = bernoulli 0.5 Wet Dry
 ```
 
 If we wish to find the overall probability of any given day being `Wet` or `Dry`, we’d ideally have some way to chain
-`weather` and `wetness` together. First, we find the probability of a day being `Sunny` or `Cloudy`, then for each case,
-we find the probability of it being `Wet` or `Dry`; we then combine the results together to give the overall distribution.
+`weather` and `wetness` together. First, we find the probability of a day being `Sunny` or `Cloudy`; then for each case,
+we find the probability of it being `Wet` or `Dry`; finally, we combine the results together to give the overall distribution.
 
 ![Weather-wetness probability tree, condensed](/assets/images/probability-monad-weather-wetness-tree-2.png)
 
@@ -156,7 +160,7 @@ lines up perfectly well with what we want to do: to take `weather` of type `Dist
 How should we then implement the bind operator? In general, what should `xs >>= f` look like in the context of
 a probability distribution?
 
-Well, our initial distribution `xs` has a list of outcome-probability pairs, which we’ll call `(x, xp)`. For each
+Our initial distribution `xs` has a list of outcome-probability pairs, which we’ll call `(x, xp)`. For each
 outcome `x`, let's feed it into the function `f`, which generates a new list of outcome-probability pairs for `x`, which
 we'll call `(y, yp)`---the resulting outcome should then be `y`, where its probability is given by `xp * yp`.
 And that's all for `>>=`!
@@ -198,8 +202,8 @@ condense day
    Dry: 41 % 50 -}
 ```
 
-...and we've solved our problem! Any given day has a $\frac{9}{50}$ probability
-of being `Wet`, and a $\frac{41}{50}$ probability of being `Dry`.
+And we've solved our problem! Any given day has a <script type="math/tex">\frac{9}{50}</script> probability
+of being `Wet`, and a <script type="math/tex">\frac{41}{50}</script> probability of being `Dry`.
 
 Making further use our the probability monad, we can also model other interesting things, such as the probability
 distribution of the sum of two independent 3-sided die rolls:
@@ -242,6 +246,8 @@ normalize dist = Dist $ map (\(x, p) -> (x, p / totalP)) $ runDist dist
   where totalP = sum $ map snd $ runDist dist
 ```
  
+#### Example: Boy-Girl Paradox
+
 Now we can apply conditioning to solve some problems. Consider the classic Boy-Girl paradox:
 
 | Mr. Smith has two children, where each has an equal probability of being either a boy or a girl. <br/> At least one of them is a boy. What is the probability that both children are boys? | 
@@ -255,14 +261,16 @@ children = do
   return (x, y)
 ```
 
-Conditioning `children` on either child being a boy, we find the probability of both children being boys to be $\frac{1}{3}$:
+Conditioning `children` on either child being a boy, we find the probability of both children being boys to be
+<script type="math/tex">\frac{1}{3}</script>:
+
 
 ```haskell
 mrSmith = condition children (\(x, y) -> x == Male || y == Male)
 probOf (==(Male, Male)) mrSmith -- 1 % 3
 ```
 
-## References
+### References
 
 1. Erwig, Martin, and Steve Kollmansberger. “Functional Pearls: Probabilistic Functional Programming in
 Haskell.” Journal of Functional Programming, vol. 16, no. 1, 12 Sept. 2005, pp. 21–34.
@@ -271,4 +279,6 @@ https://doisinkidney.com/pdfs/prob-presentation.pdf.
 3. Ścibior, Adam D., et al. “Practical Probabilistic Programming with Monads.” Haskell ’15, Proceedings of the
 2015 ACM SIGPLAN Symposium on Haskell, pp. 165–176.
 
-_Adapted from an assignment made under CS2104: Programming Language Concepts._
+_Adapted from an assignment made for CS2104: Programming Language Concepts._
+
+<script src="/assets/js/katex_render.js"></script>
