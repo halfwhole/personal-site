@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Fruit Flies and Bloom Filters"
+title:  "Fruit Flies and Bloom Filters [DRAFT]"
 date:   2020-07-21 12:30:00 +0800
 tags:   fruit fly bloom filter
 ---
@@ -8,7 +8,6 @@ tags:   fruit fly bloom filter
 A few months ago, while reading the [Wikipedia page on Bloom filters][wikipedia-bloom-filter], a friend and I came across a note on fruit flies:
 
 > Fruit flies use a modified version of Bloom filters to detect novelty of odors, with additional features including similarity of novel odor to that of previously experienced examples, and time elapsed since previous experience of the same odor.
-
 
 We found it very interesting. Who knew Bloom filters and fruit flies had anything to do with each other?
 
