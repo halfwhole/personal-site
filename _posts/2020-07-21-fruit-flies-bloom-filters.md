@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Fruit Flies and Bloom Filters [DRAFT]"
+title:  "Fruit Flies and Bloom Filters"
 date:   2020-07-21 12:30:00 +0800
 tags:   fruit fly bloom filter
 ---
@@ -9,48 +9,82 @@ A few months ago, while reading the [Wikipedia page on Bloom filters][wikipedia-
 
 > Fruit flies use a modified version of Bloom filters to detect novelty of odors, with additional features including similarity of novel odor to that of previously experienced examples, and time elapsed since previous experience of the same odor.
 
-We found it very interesting. Who knew Bloom filters and fruit flies had anything to do with each other?
+Who knew fruit flies and Bloom filters had anything to do with each other? This was a fun tidbit too interesting to ignore.
 
-## Bloom Filters
+<div style="text-align:center; margin-bottom:15px">
+  <img src="/assets/images/fruit-fly-bloom-filter/bloom-filter.png" alt="bloom filter data structure" style="display:inline-block; height:160px; margin-right:10px">
+  <img src="/assets/images/fruit-fly-bloom-filter/fruit-fly.jpg" alt="fruit fly image" style="display:inline-block; height:200px">
+</div>
 
-For context, here's a quick rundown on Bloom filters. A Bloom filter is a classic space-efficient data structure that helps you determine if an item is a member of a set. It is, however, probabilistic: if the membership test says no, the item is definitely not in the set; but if the test says yes, it is only _very likely_ to be in the set.
+<div style="text-align:center; font-style:italic; font-size:14px; margin-bottom:25px">
+(R) <a href="https://www.flickr.com/photos/7326810@N08/1636684209">Drosophila melanogaster</a> by <a href="https://commons.wikimedia.org/wiki/User:Aka">André Karwath</a>, under <a href="https://creativecommons.org/licenses/by-sa/2.5/">CC BY-SA 2.0</a>
+</div>
 
-Bloom filters start off as an empty bit array. To add an item, we pass it through several hash functions, each of which map to a location in the bit array; then, we set each location's bit to 1. To test if the item exists in the Bloom filter, we simply run it through the same hash functions; if all of the locations' bits are set to 1, then it has likely been previously added to the data structure. Otherwise, if any of the bits are 0, then the item must not have been added.
+#### Drawing Parallels
 
-![Bloom filter data structure][bloom-filter-data-structure]
+In computer science, we know Bloom filters to be a classic probabilistic data structure used to solve the _membership problem_,
+i.e. to determine if an item is a member of a set.
+And in practice, Bloom filters are very commonly used to determine if a user has seen some item before:
+[OkCupid][okcupid-bloom-filter] uses it to track whether a user has already swiped someone,
+and [Medium][medium-bloom-filter] uses it to avoid recommending its users articles that have already been read.
 
-In the diagram, there are three hash functions. To add _x_, _y_, and _z_, we pass each of them through all three hash functions to get three locations each, and set these locations in the bit array to 1. To test if _w_ is a member, we again pass it through all three hash functions; since one of the locations has a 0 bit, we conclude that _w_ has not been added.
+In the natural world, fruit flies face a similar problem known as _novelty detection_:
+when it smells an odor, it needs to determine if the odor stimulus is new, so it can pay greater attention to novel ones.
+Since novelty detection can be framed as an instance of the membership problem,
+it can be solved with Bloom filters too (with a few important modifications!).
 
-As we add new items to the filter, hash collisions may arise, affecting the accuracy of our membership tests. The probability of such a collision depends on the array size and the number of hash functions used; therefore, designing a Bloom filter involves trade-offs between space, speed (proportional to the number of hash functions), and accuracy.
+As it so happens, according to a [2018 paper][fruit-fly-paper],
+fruit flies do have a Bloom filter-like data structure in their brains.
+When a fruit fly smells an odor, it is converted into a corresponding neural signal,
+which then passes through neural connections that act as a hash function.
+Finally, the resulting hashed neural output is stored into the Bloom filter-like structure in its brain.
+To test if an odor is new, its corresponding signal is simply hashed and compared against the data structure to determine if it is present.
 
-Bloom filters are widely used to determine if an item has been encountered before. For example, [OkCupid][okcupid-bloom-filter] uses it to track whether a user has already swiped someone, and [Medium][medium-bloom-filter] uses it to avoid recommending its users previously-read articles.
+#### Modifications
 
-## Fruit Flies
+There are some slight but important differences between the abstract Bloom filter and the version we see in fruit flies.
 
-On a similar note, fruit flies face a problem known as novelty detection: when a fly smells an odor, it needs to determine if it is new, so as to pay greater attention to novel stimuli. This problem turns out to be isomorphic to the membership problem we've seen earlier, and so it can be solved with Bloom filters.
+For one, the fruit fly's Bloom filter doesn't store 0/1 bits, but something akin to a continuous real value.
+This might be less space-efficient in code, as floats may take say 32 or 64 times the space.
+But these continuous values serve an important purpose to fruit flies: they represent _how novel_ the odor is.
+When the odor is experienced, it bumps up its respective values in the Bloom filter, making it less novel;
+as time passes, these values slowly decay, and so odors 'become' more novel over time.
 
-As it so happens, according to a [2018 paper][fruit-fly-paper], fruit flies do use a Bloom filter-like data structure in their brains to handle novelty detection. Upon smelling an odor, its corresponding neural signal representing the odor is passed through neural connections that act as a hash function, then stored into a data structure in the brain. To test if an odor is new, its representing signal is simply hashed and compared against the data structure to determine if it is present.
+Another difference would be that of locality-sensitive hashing:
+similar odors are hashed to similar locations, and hence share similar novelty values.
+This can be disadvantageous in a traditional Bloom filter as it can disrupt uniformity across the data structure.
+But for fruit flies, similar odors ought to be recognised similarly and given similar novelty values,
+so the use locality-sensitive hashing is appropriate.
 
-We can make the parallels between fruit flies and Bloom filters as such:
-- __Input__: the odor, represented as a 50-dimensional vector, based on 50 different types of receptor neurons in the fly's nose
-- __Hash function__: a feedforward neural network
-- __Hash__: the firing pattern of 2,000 output cells, where only ~5% of them fire, representing the hash
+These modifications allow for distance and time-sensitivity, making the fruit fly's version of
+the Bloom filter robust to noise (in terms of odor input) and giving it a recency effect.
 
-Distinct odors activate a different 5% of these cells, \<TODO\>
+It would be interesting to see these modifications implemented in regular Bloom filters, as they have some useful applications.
+Time-sensitivity can be useful where novelty or recency matters, say if
+we want to re-recommend old articles to users after some amount of time.
+Distance-sensitivity could help in applications where we want to treat similar inputs similarly,
+or when the inputs are are noisy (e.g. images, audio, or video data).
 
-## Calculations
+#### Thoughts
 
+These parallels between fruit flies and Bloom filters are a rather quirky fact,
+and it reminds us that we can often draw connections between nature and mathematics.
+The similarities that come from these parallels may be important,
+but so are the distinctions---these inform potentially new applications and areas of research.
 
-## Implications
+Often we think of nature as an inspiration for human innovations and discoveries:
+it has given us engineering marvels like the speed rail, the law of gravitation, and so on.
+But among others, examples like the fruit fly seem to show that the converse is also true;
+sometimes, nature takes a hint from mathematics as well.
 
-Two different traits: distance and time-sensitivity
-- Similarity/robustness to noise: using locality-sensitive hashing
-- Recency: decay
+<img src="/assets/images/fruit-fly-bloom-filter/aloe-spiral.jpg" alt="aloe spiral" style="display:block; width:40%; margin-left:auto; margin-right:auto"/>
 
+<div style="text-align:center; font-style:italic; font-size:14px">
+<a href="https://www.flickr.com/photos/7326810@N08/1636684209">Aloe polyphylla spiral</a> by <a href="https://www.flickr.com/photos/7326810@N08/">Jean</a>, under <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a>
+</div>
 
 [medium-bloom-filter]: https://blog.medium.com/what-are-bloom-filters-1ec2a50c68ff
 [okcupid-bloom-filter]: https://tech.okcupid.com/swiping-right-on-bloom-filters/
 [wikipedia-bloom-filter]: https://en.wikipedia.org/wiki/Bloom_filter
 [fruit-fly-paper]: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6304992/
 [locality-sensitive-bloom-filter-paper]: https://ieeexplore.ieee.org/abstract/document/5928322
-[bloom-filter-data-structure]: /assets/images/fruit-fly-bloom-filter-data-structure.png
