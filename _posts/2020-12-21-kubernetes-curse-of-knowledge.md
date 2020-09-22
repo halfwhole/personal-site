@@ -11,7 +11,7 @@ I've been using Kubernetes recently as a cloud systems intern, and one thing tha
 
 I'm not at all here to disparage Kubernetes. It's great at managing and coordinating large-scale applications, and much of its complexity is certainly unavoidable. Rather, my complaint with Kubernetes lies with its documentation: Kubernetes may be hard, but its bad documentation only makes it even harder.
 
-| ![What is Kubernetes?](/assets/images/kubernetes-what-is-kubernetes.png) |
+| ![What is Kubernetes?](/public/images/kubernetes/what-is-kubernetes.png) |
 |:--:|
 | *Thanks, I sure needed to read that paragraph twice.* |
 

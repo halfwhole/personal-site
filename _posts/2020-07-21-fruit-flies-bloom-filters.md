@@ -11,16 +11,16 @@ A few months ago, while reading the [Wikipedia page on Bloom filters][wikipedia-
 
 Who knew fruit flies and Bloom filters had anything to do with each other? This was a fun tidbit too interesting to ignore.
 
-<div style="text-align:center; margin-bottom:15px">
-  <img src="/assets/images/fruit-fly-bloom-filter/bloom-filter.png" alt="bloom filter data structure" style="display:inline-block; height:160px; margin-right:10px">
-  <img src="/assets/images/fruit-fly-bloom-filter/fruit-fly.jpg" alt="fruit fly image" style="display:inline-block; height:200px">
+<div style="text-align:center">
+  <img src="/public/images/fruit-fly-bloom-filter/bloom-filter.png" alt="bloom filter data structure" style="display:inline-block; height:160px; margin-right:10px">
+  <img src="/public/images/fruit-fly-bloom-filter/fruit-fly.jpg" alt="fruit fly image" style="display:inline-block; height:180px">
 </div>
 
-<div style="text-align:center; font-style:italic; font-size:14px; margin-bottom:25px">
+<div style="text-align:center; font-style:italic; font-size:16px">
 (R) <a href="https://commons.wikimedia.org/wiki/File:Drosophila_melanogaster_-_front_(aka).jpg">Drosophila melanogaster</a> by <a href="https://commons.wikimedia.org/wiki/User:Aka">André Karwath</a>, under <a href="https://creativecommons.org/licenses/by-sa/2.5/">CC BY-SA 2.5</a>
 </div>
 
-#### Drawing Parallels
+### Drawing Parallels
 
 In computer science, we know Bloom filters to be a classic probabilistic data structure used to solve the _membership problem_,
 i.e. to determine if an item is a member of a set.
@@ -40,7 +40,7 @@ which then passes through neural connections that act as a hash function.
 Finally, the resulting hashed neural output is stored into the Bloom filter-like structure in its brain.
 To test if an odor is new, its corresponding signal is simply hashed and compared against the data structure to determine if it is present.
 
-#### Modifications
+### Modifications
 
 There are some slight but important differences between the abstract Bloom filter and the version we see in fruit flies.
 
@@ -65,7 +65,7 @@ we want to re-recommend old articles to users after some amount of time.
 Distance-sensitivity could help in applications where we want to treat similar inputs similarly,
 or when the inputs may be noisy (e.g. image, audio, or video data).
 
-#### Thoughts
+### Thoughts
 
 These parallels between fruit flies and Bloom filters are a rather quirky fact,
 and it reminds us that we can often draw connections between nature and mathematics.
@@ -77,9 +77,9 @@ it has given us engineering marvels like the speed rail, the law of gravitation,
 But among others, examples like the fruit fly seem to show that the converse is also true;
 sometimes, nature takes a hint from mathematics as well.
 
-<img src="/assets/images/fruit-fly-bloom-filter/aloe-spiral.jpg" alt="aloe spiral" style="display:block; width:40%; margin-left:auto; margin-right:auto"/>
+<img src="/public/images/fruit-fly-bloom-filter/aloe-spiral.jpg" alt="aloe spiral" style="display:block; width:50%; margin-left:auto; margin-right:auto"/>
 
-<div style="text-align:center; font-style:italic; font-size:14px">
+<div style="text-align:center; font-style:italic; font-size:16px">
 <a href="https://www.flickr.com/photos/7326810@N08/1636684209">Aloe polyphylla spiral</a> by <a href="https://www.flickr.com/photos/7326810@N08/">Jean</a>, under <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a>
 </div>
 

@@ -1,7 +1,7 @@
 - hosts: localhost
   tasks:
   - name: Run jekyll build
-    command: "bundle exec jekyll build"
+    command: "jekyll build"
 
 - hosts: remote
   become: yes

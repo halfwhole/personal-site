@@ -5,9 +5,9 @@ date:   2020-07-10 22:30:00 +0800
 tags:   probability monad haskell
 ---
 
-<script src="/assets/js/jquery-1.11.1.min.js"></script>
-<script src="/assets/js/katex.min.js"></script>
-<link rel="stylesheet" href="/assets/css/katex.min.css">
+<script src="/public/js/jquery-1.11.1.min.js"></script>
+<script src="/public/js/katex.min.js"></script>
+<link rel="stylesheet" href="/public/css/katex.min.css">
 
 Those who've used Haskell before have likely worked with a couple of well-known monads.
 For example, the `List` represents a non-deterministic computation, and `Maybe` represents a computation
@@ -40,7 +40,7 @@ instance (Show a) => Show (Dist a) where
   show dist = foldr (\(x, p) acc -> show x ++ ": " ++ show p ++ "\n" ++ acc) "" $ runDist dist
 ```
 
-#### Example: Defining Probability Distributions
+### Example: Defining Probability Distributions
 
 Now that we can represent discrete probability distributions, let's define a few well-known ones:
 
@@ -122,7 +122,7 @@ But let's also say that depending on the weather condition, it can rain with som
 unlikely to rain, so our day has a 0.1 chance of being `Wet`. If it's `Cloudy`, then it's more likely to rain, with a 0.5
 chance of our day being `Wet`.
 
-![Weather-wetness probability tree](/assets/images/probability-monad-weather-wetness-tree.png)
+![Weather-wetness probability tree](/public/images/probability-monad/weather-wetness-tree.png)
 
 ```haskell
 data Weather = Sunny | Cloudy deriving (Eq, Show)
@@ -140,7 +140,7 @@ If we wish to find the overall probability of any given day being `Wet` or `Dry`
 `weather` and `wetness` together. First, we find the probability of a day being `Sunny` or `Cloudy`; then for each case,
 we find the probability of it being `Wet` or `Dry`; finally, we combine the results together to give the overall distribution.
 
-![Weather-wetness probability tree, condensed](/assets/images/probability-monad-weather-wetness-tree-2.png)
+![Weather-wetness probability tree, condensed](/public/images/probability-monad/weather-wetness-tree-2.png)
 
 But here, we run into a problem. `weather` is of type `Dist Weather`, but
 `wetness` is of type `Weather -> Dist Wetness`, so we cannot simply use function application:
@@ -246,11 +246,11 @@ normalize dist = Dist $ map (\(x, p) -> (x, p / totalP)) $ runDist dist
   where totalP = sum $ map snd $ runDist dist
 ```
  
-#### Example: Boy-Girl Paradox
+### Example: Boy-Girl Paradox
 
 Now we can apply conditioning to solve some problems. Consider the classic Boy-Girl paradox:
 
-| Mr. Smith has two children, where each has an equal probability of being either a boy or a girl. <br/> At least one of them is a boy. What is the probability that both children are boys? | 
+> Mr. Smith has two children, where each has an equal probability of being either a boy or a girl. At least one of them is a boy. What is the probability that both children are boys?
 
 ```haskell
 data Gender = Male | Female | Other deriving (Eq, Show)
@@ -281,4 +281,4 @@ https://doisinkidney.com/pdfs/prob-presentation.pdf.
 
 _Adapted from an assignment made for CS2104: Programming Language Concepts._
 
-<script src="/assets/js/katex_render.js"></script>
+<script src="/public/js/katex_render.js"></script>
