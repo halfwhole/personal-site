@@ -17,7 +17,7 @@ Who knew fruit flies and Bloom filters had anything to do with each other? This 
 </div>
 
 <div style="text-align:center; font-style:italic; font-size:14px; margin-bottom:25px">
-(R) <a href="https://www.flickr.com/photos/7326810@N08/1636684209">Drosophila melanogaster</a> by <a href="https://commons.wikimedia.org/wiki/User:Aka">André Karwath</a>, under <a href="https://creativecommons.org/licenses/by-sa/2.5/">CC BY-SA 2.0</a>
+(R) <a href="https://commons.wikimedia.org/wiki/File:Drosophila_melanogaster_-_front_(aka).jpg">Drosophila melanogaster</a> by <a href="https://commons.wikimedia.org/wiki/User:Aka">André Karwath</a>, under <a href="https://creativecommons.org/licenses/by-sa/2.5/">CC BY-SA 2.5</a>
 </div>
 
 #### Drawing Parallels
@@ -48,13 +48,13 @@ For one, the fruit fly's Bloom filter doesn't store 0/1 bits, but something akin
 This might be less space-efficient in code, as floats may take say 32 or 64 times the space.
 But these continuous values serve an important purpose to fruit flies: they represent _how novel_ the odor is.
 When the odor is experienced, it bumps up its respective values in the Bloom filter, making it less novel;
-as time passes, these values slowly decay, and so odors 'become' more novel over time.
+as time passes, these values slowly decay, and so old odors 'become' more novel over time.
 
 Another difference would be that of locality-sensitive hashing:
 similar odors are hashed to similar locations, and hence share similar novelty values.
 This can be disadvantageous in a traditional Bloom filter as it can disrupt uniformity across the data structure.
 But for fruit flies, similar odors ought to be recognised similarly and given similar novelty values,
-so the use locality-sensitive hashing is appropriate.
+so the use of locality-sensitive hashing is appropriate.
 
 These modifications allow for distance and time-sensitivity, making the fruit fly's version of
 the Bloom filter robust to noise (in terms of odor input) and giving it a recency effect.
@@ -63,7 +63,7 @@ It would be interesting to see these modifications implemented in regular Bloom 
 Time-sensitivity can be useful where novelty or recency matters, say if
 we want to re-recommend old articles to users after some amount of time.
 Distance-sensitivity could help in applications where we want to treat similar inputs similarly,
-or when the inputs are are noisy (e.g. images, audio, or video data).
+or when the inputs may be noisy (e.g. image, audio, or video data).
 
 #### Thoughts
 
