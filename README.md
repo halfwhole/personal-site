@@ -1,9 +1,18 @@
 # readme
 
+## Installation
+
+Ensure that `rbenv` is set up.
+
+```sh
+$ gem install jekyll
+$ bundle install
+```
+
 ## Serving Locally
 
 ``` sh
-jekyll serve
+$ bundle exec jekyll serve
 ```
 
 ## Deployment

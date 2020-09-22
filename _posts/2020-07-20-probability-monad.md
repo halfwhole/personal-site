@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "The Probability Monad: Modelling Discrete Probabilities in Haskell"
-date:   2020-07-20 22:30:00 +0800
+date:   2020-07-10 22:30:00 +0800
 tags:   probability monad haskell
 ---
 
