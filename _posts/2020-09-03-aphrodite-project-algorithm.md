@@ -130,7 +130,9 @@ With such a difficult problem, how can we expect a single algorithm to perform w
 No matter how "Economics Nobel-Prize winning" an algorithm may be,
 it means little if it fundamentally isn't cut out to solve the problem at hand.
 
-_(That being said, I do still think that the project is a worthwhile venture. Even if it might not work at rates significant beyond chance levels, it gives one an excuse to interact and seek others out. Who knows if a match might actually arise?_ 🙂_)_
+<div style="padding-bottom:10px"></div>
+
+_(That being said, I do still think that the project is worthwhile. Even if it might not work at rates significant beyond chance levels, it gives one an opportunity to seek others out. Who knows if a match might actually arise?_ 🙂_)_
 
 
 [the-octant]: https://theoctant.org/edition/issue/features/from-arrow-to-algorithm-the-aphrodite-project-could-find-you-true-love/
