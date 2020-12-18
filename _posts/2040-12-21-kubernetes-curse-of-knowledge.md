@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Kubernetes and the Curse of Knowledge"
-date:   2020-12-21 09:00:00 +0800
+date:   2040-12-21 09:00:00 +0800
 tags:   kubernetes
 ---
 
