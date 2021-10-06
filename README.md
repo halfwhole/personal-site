@@ -29,6 +29,15 @@ Deploy the site to your remote server:
 $ ansible-playbook playbook.yml -i production.ini
 ```
 
+## Admin Details
+
+To start/stop serving the site:
+
+``` sh
+$ sudo systemctl start nginx
+$ sudo systemctl stop nginx
+```
+
 ## LaTeX
 
 Put this in the beginning:
