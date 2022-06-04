@@ -29,18 +29,9 @@ Deploy the site to your remote server:
 $ ansible-playbook playbook.yml -i production.ini
 ```
 
-## Admin Details
-
-To start/stop serving the site:
-
-``` sh
-$ sudo systemctl start nginx
-$ sudo systemctl stop nginx
-```
-
 ## LaTeX
 
-Put this in the beginning:
+To write LaTeX, put this in the beginning:
 
 ``` html
 <script src="/public/js/jquery-1.11.1.min.js"></script>
@@ -59,3 +50,35 @@ Write LaTeX as such:
 ``` html
 <script type="math/tex">\frac{41}{50}</script>
 ```
+
+## Admin Details
+
+This site is currently being run on a CentOS machine.
+
+To start/stop serving the site:
+
+``` sh
+$ sudo systemctl start nginx
+$ sudo systemctl stop nginx
+```
+
+### CertBot
+
+SSL/TLS certificates are configured with CertBot.
+
+To setup new certificates for the website:
+
+```sh
+$ sudo certbot --nginx -d <site.com> [-d <www.site.com>]
+```
+
+To renew existing certificates for the website:
+
+```sh
+$ sudo certbot renew
+```
+
+There's also an existing problem whereby the configurations for CertBot in `nginx.conf` can be overriden,
+which I believe (?) happens every time the ansible playbook is run.
+To fix this issue, we need to re-setup CertBot for nginx afterwards.
+
